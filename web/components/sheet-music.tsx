@@ -13,7 +13,7 @@ interface SheetMusicProps {
   notes: Note[];
   difficulty: string;
   currentNoteIndex: number;
-  clef: 'treble' | 'bass';
+  clef: "treble" | "bass";
 }
 
 const SheetMusic: React.FC<SheetMusicProps> = ({
@@ -31,8 +31,7 @@ const SheetMusic: React.FC<SheetMusicProps> = ({
       const vf = new Factory({
         renderer: {
           elementId: containerRef.current,
-          x: 0,
-          width: 240,
+          width: notes.length == 1 ? 90 : 60 * notes.length,
           height: difficulty === "hard" ? 200 : 150,
         },
       });
@@ -42,14 +41,20 @@ const SheetMusic: React.FC<SheetMusicProps> = ({
       const score = vf.EasyScore();
       const system = vf.System({
         x: 0,
-        width: 220,
+        width: notes.length == 1 ? 110 : 55 * notes.length,
       });
+
+      console.log(`${notes.length}/4`);
+      console.log(notes.map((note) => `${note.pitch}/4`).join(", "));
 
       system
         .addStave({
           voices: [
             score.voice(
-              score.notes(notes.map((note) => `${note.pitch}/4`).join(", "))
+              score.notes(notes.map((note) => `${note.pitch}/4`).join(", ")),
+              {
+                time: `${notes.length}/4`,
+              }
             ),
           ],
         })
@@ -74,4 +79,3 @@ const SheetMusic: React.FC<SheetMusicProps> = ({
 };
 
 export default SheetMusic;
-

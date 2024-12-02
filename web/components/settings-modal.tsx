@@ -20,6 +20,8 @@ interface SettingsModalProps {
   setNoteNameStyle: (style: "alphabet" | "solfege") => void;
   clef: "treble" | "bass";
   setClef: (clef: "treble" | "bass") => void;
+  noteCount: number;
+  setNoteCount: (count: number) => void;
 }
 
 const SettingsModal: React.FC<SettingsModalProps> = ({
@@ -31,6 +33,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   setNoteNameStyle,
   clef,
   setClef,
+  noteCount,
+  setNoteCount,
 }) => {
   return (
     <Dialog>
@@ -60,14 +64,31 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
             </RadioGroup>
           </div>
           <div>
+            <h3 className="text-lg font-medium">音符の数</h3>
+            <RadioGroup
+              value={noteCount.toString()}
+              onValueChange={(value) => setNoteCount(parseInt(value))}
+            >
+              {[1, 2, 3, 4].map((count) => (
+                <div key={count} className="flex items-center space-x-2">
+                  <RadioGroupItem
+                    value={count.toString()}
+                    id={`note-count-${count}`}
+                  />
+                  <Label htmlFor={`note-count-${count}`}>{count}</Label>
+                </div>
+              ))}
+            </RadioGroup>
+          </div>
+          <div>
             <h3 className="text-lg font-medium">音部記号</h3>
             <RadioGroup value={clef} onValueChange={setClef}>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="treble" id="treble" />
+                <RadioGroupItem disabled value="treble" id="treble" />
                 <Label htmlFor="treble">ト音記号</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="bass" id="bass" />
+                <RadioGroupItem disabled value="bass" id="bass" />
                 <Label htmlFor="bass">ヘ音記号</Label>
               </div>
             </RadioGroup>

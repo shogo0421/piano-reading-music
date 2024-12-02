@@ -58,16 +58,17 @@ export default function Home() {
   const [currentNoteIndex, setCurrentNoteIndex] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
   const [lastPlayedNote, setLastPlayedNote] = useState<string>("");
+  const [noteCount, setNoteCount] = useState(4);
 
   const resetGame = useCallback(() => {
-    setNotes(generateRandomNotes(4, difficulty));
+    setNotes(generateRandomNotes(noteCount, difficulty));
     setCurrentNoteIndex(0);
     setShowCelebration(false);
-  }, [difficulty]);
+  }, [difficulty, noteCount]);
 
   useEffect(() => {
     resetGame();
-  }, [difficulty, clef, resetGame]);
+  }, [difficulty, clef, noteCount, resetGame]);
 
   useEffect(() => {
     if (currentNoteIndex === notes.length) {
@@ -146,6 +147,8 @@ export default function Home() {
           setNoteNameStyle={setNoteNameStyle}
           clef={clef}
           setClef={setClef}
+          noteCount={noteCount}
+          setNoteCount={setNoteCount}
         />
       </div>
       <Celebration isVisible={showCelebration} />
