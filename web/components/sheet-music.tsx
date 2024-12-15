@@ -26,11 +26,12 @@ const SheetMusic: React.FC<SheetMusicProps> = ({
 
   useEffect(() => {
     if (containerRef.current) {
+      containerRef.current.id = "score-renderer-container";
       containerRef.current.innerHTML = "";
 
       const vf = new Factory({
         renderer: {
-          elementId: containerRef.current,
+          elementId: containerRef.current.id,
           width: notes.length == 1 ? 90 : 60 * notes.length,
           height: difficulty === "hard" ? 200 : 150,
         },
