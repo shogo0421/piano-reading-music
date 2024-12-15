@@ -75,6 +75,16 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
   noteNameStyle,
   difficulty,
 }) => {
+  const keyStyles = `
+  @keyframes pressedAnimation {
+    0%, 100% { background-color: inherit; }
+    50% { background-color: #ef4444; }
+  }
+  .pressed {
+    animation: pressedAnimation 1s ease;
+  }
+`;
+
   const notes = [
     "C",
     "C#",
@@ -89,15 +99,6 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
     "A#",
     "B",
   ];
-  const keyStyles = `
-  @keyframes pressedAnimation {
-    0%, 100% { background-color: inherit; }
-    50% { background-color: #ef4444; }
-  }
-  .pressed {
-    animation: pressedAnimation 1s ease;
-  }
-`;
 
   let keys: string[];
   if (difficulty === "hard") {
