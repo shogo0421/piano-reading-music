@@ -51,7 +51,9 @@ const SheetMusic: React.FC<SheetMusicProps> = ({
         .addStave({
           voices: [
             score.voice(
-              score.notes(notes.map((note) => `${note.pitch}/4`).join(", ")),
+              score.notes(notes.map((note) => `${note.pitch}/4`).join(", "), {
+                clef: clef,
+              }),
               {
                 time: `${notes.length}/4`,
               }

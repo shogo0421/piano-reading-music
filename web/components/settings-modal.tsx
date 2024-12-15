@@ -84,11 +84,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
             <h3 className="text-lg font-medium">音部記号</h3>
             <RadioGroup value={clef} onValueChange={setClef}>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem disabled value="treble" id="treble" />
+                <RadioGroupItem value="treble" id="treble" />
                 <Label htmlFor="treble">ト音記号</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem disabled value="bass" id="bass" />
+                <RadioGroupItem value="bass" id="bass" />
                 <Label htmlFor="bass">ヘ音記号</Label>
               </div>
             </RadioGroup>
