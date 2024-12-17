@@ -4,52 +4,47 @@ import {
   bassDifficultNotes,
   bassEasyNotes,
   bassMediumNotes,
-  trebleDifficultNotes,
+  trebleHardNotes,
   trebleEasyNotes,
   trebleMediumNotes,
 } from "@/lib/notes";
+
+export const Clef = {
+  treble: "treble",
+  bass: "bass",
+} as const;
+export type Clef = (typeof Clef)[keyof typeof Clef];
+
+export const Difficulty = {
+  easy: "easy",
+  medium: "medium",
+  hard: "hard",
+} as const;
+export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty];
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const difficultyToNotesMap = {
+  treble: {
+    easy: trebleEasyNotes,
+    medium: trebleMediumNotes,
+    hard: trebleHardNotes,
+  },
+  bass: {
+    easy: bassEasyNotes,
+    medium: bassMediumNotes,
+    hard: bassDifficultNotes,
+  },
+};
+
 export const generateRandomNotes = (
   count: number,
-  difficulty: string,
-  clef: "treble" | "bass"
+  difficulty: Difficulty,
+  clef: Clef
 ) => {
-  let notes: string[] = [];
-  if (clef === "treble") {
-    switch (difficulty) {
-      case "easy": {
-        notes = trebleEasyNotes;
-        break;
-      }
-      case "medium": {
-        notes = trebleMediumNotes;
-        break;
-      }
-      case "difficult": {
-        notes = trebleDifficultNotes;
-        break;
-      }
-    }
-  } else {
-    switch (difficulty) {
-      case "easy": {
-        notes = bassEasyNotes;
-        break;
-      }
-      case "medium": {
-        notes = bassMediumNotes;
-        break;
-      }
-      case "difficult": {
-        notes = bassDifficultNotes;
-        break;
-      }
-    }
-  }
+  const notes: string[] = difficultyToNotesMap[clef][difficulty];
 
   return Array.from({ length: count }, () => ({
     pitch: notes[Math.floor(Math.random() * notes.length)],

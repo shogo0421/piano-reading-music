@@ -10,16 +10,17 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { Clef, Difficulty } from "@/lib/utils";
 
 interface SettingsModalProps {
   difficulty: string;
-  setDifficulty: (difficulty: string) => void;
+  setDifficulty: (difficulty: Difficulty) => void;
   showNoteNames: boolean;
   setShowNoteNames: (show: boolean) => void;
   noteNameStyle: "alphabet" | "solfege";
   setNoteNameStyle: (style: "alphabet" | "solfege") => void;
-  clef: "treble" | "bass";
-  setClef: (clef: "treble" | "bass") => void;
+  clef: Clef;
+  setClef: (clef: Clef) => void;
   noteCount: number;
   setNoteCount: (count: number) => void;
 }

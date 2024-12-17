@@ -6,12 +6,12 @@ import SheetMusic from "../components/sheet-music";
 import Celebration from "../components/celebration";
 import SettingsModal from "../components/settings-modal";
 import { Button } from "@/components/ui/button";
-import { generateRandomNotes } from "@/lib/utils";
+import { Clef, Difficulty, generateRandomNotes } from "@/lib/utils";
 
 export default function Home() {
   const [noteCount, setNoteCount] = useState(4);
-  const [difficulty, setDifficulty] = useState("easy");
-  const [clef, setClef] = useState<"treble" | "bass">("treble");
+  const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.easy);
+  const [clef, setClef] = useState<Clef>(Clef.treble);
 
   const randomNotes = useMemo((): {
     pitch: string;
@@ -99,6 +99,7 @@ export default function Home() {
           pressedNote={pressedNote}
           showNoteNames={showNoteNames}
           noteNameStyle={noteNameStyle}
+          clef={clef}
           difficulty={difficulty}
         />
       </div>
