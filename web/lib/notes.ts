@@ -7,7 +7,7 @@ export const trebleMediumNotes = [
   "G#4",
   "A#4",
 ];
-export const trebleDifficultNotes = [
+export const trebleHardNotes = [
   ...trebleMediumNotes,
   "C3",
   "C#3",
@@ -70,4 +70,19 @@ export const bassDifficultNotes = [
   "A3",
   "A#3",
   "B3",
+];
+
+export const basePianoKeys = [
+  "C",
+  "C#",
+  "D",
+  "D#",
+  "E",
+  "F",
+  "F#",
+  "G",
+  "G#",
+  "A",
+  "A#",
+  "B",
 ];

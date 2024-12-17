@@ -1,5 +1,6 @@
 "use client";
 
+import { Clef, Difficulty } from "@/lib/utils";
 import React, { useEffect, useRef } from "react";
 import { Factory } from "vexflow";
 
@@ -13,7 +14,7 @@ interface SheetMusicProps {
   notes: Note[];
   difficulty: string;
   currentNoteIndex: number;
-  clef: "treble" | "bass";
+  clef: Clef;
 }
 
 const SheetMusic: React.FC<SheetMusicProps> = ({
@@ -33,7 +34,7 @@ const SheetMusic: React.FC<SheetMusicProps> = ({
         renderer: {
           elementId: containerRef.current.id,
           width: notes.length == 1 ? 90 : 60 * notes.length,
-          height: difficulty === "hard" ? 200 : 150,
+          height: difficulty === Difficulty.hard ? 200 : 150,
         },
       });
 

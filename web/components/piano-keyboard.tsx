@@ -1,4 +1,6 @@
-import React from "react";
+import { basePianoKeys } from "@/lib/notes";
+import { Clef, Difficulty } from "@/lib/utils";
+import React, { useMemo } from "react";
 
 type NoteNameStyle = "alphabet" | "solfege";
 
@@ -34,8 +36,10 @@ const PianoKey: React.FC<PianoKeyProps> = ({
   showNoteName,
   noteNameStyle,
 }) => {
-  const handlePress = () => onPlay(note);
-  const noteName = noteNameMap[note.slice(0, -1)][noteNameStyle];
+  const noteName = useMemo(
+    () => noteNameMap[note.slice(0, -1)][noteNameStyle],
+    [note, noteNameStyle]
+  );
 
   return (
     <div
@@ -45,7 +49,7 @@ const PianoKey: React.FC<PianoKeyProps> = ({
         ${isBlack ? "w-5 h-20 -mx-2.5" : "w-8 h-32"}
         rounded-b-md shadow-md cursor-pointer transition-all duration-150 relative
       `}
-      onClick={handlePress}
+      onClick={() => onPlay(note)}
     >
       {showNoteName && (
         <span
@@ -60,12 +64,38 @@ const PianoKey: React.FC<PianoKeyProps> = ({
   );
 };
 
+export const difficultyToPianoKeysMap = {
+  treble: {
+    easy: [...basePianoKeys.map((note) => `${note}4`).concat(["C5"])],
+    medium: [...basePianoKeys.map((note) => `${note}4`).concat(["C5"])],
+    hard: [
+      ...basePianoKeys
+        .map((note) => `${note}3`)
+        .concat(basePianoKeys.map((note) => `${note}4`))
+        .concat(basePianoKeys.map((note) => `${note}5`))
+        .concat(["C6"]),
+    ],
+  },
+  bass: {
+    easy: [...basePianoKeys.map((note) => `${note}2`).concat(["C3"])],
+    medium: [...basePianoKeys.map((note) => `${note}2`).concat(["C3"])],
+    hard: [
+      ...basePianoKeys
+        .map((note) => `${note}1`)
+        .concat(basePianoKeys.map((note) => `${note}2`))
+        .concat(basePianoKeys.map((note) => `${note}3`))
+        .concat(["C4"]),
+    ],
+  },
+};
+
 interface PianoKeyboardProps {
   onPlay: (note: string) => void;
   pressedNote: string | null;
   showNoteNames: boolean;
   noteNameStyle: NoteNameStyle;
-  difficulty: string;
+  clef: Clef;
+  difficulty: Difficulty;
 }
 
 const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
@@ -73,6 +103,7 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
   pressedNote,
   showNoteNames,
   noteNameStyle,
+  clef,
   difficulty,
 }) => {
   const keyStyles = `
@@ -85,43 +116,10 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
   }
 `;
 
-  const notes = [
-    "C",
-    "C#",
-    "D",
-    "D#",
-    "E",
-    "F",
-    "F#",
-    "G",
-    "G#",
-    "A",
-    "A#",
-    "B",
-  ];
-
-  let keys: string[];
-  if (difficulty === "hard") {
-    keys = [
-      "C3",
-      "C#3",
-      "D3",
-      "D#3",
-      "E3",
-      "F3",
-      "F#3",
-      "G3",
-      "G#3",
-      "A3",
-      "A#3",
-      "B3",
-    ]
-      .concat(notes.map((note) => `${note}4`))
-      .concat(notes.map((note) => `${note}5`))
-      .concat(["C6"]);
-  } else {
-    keys = notes.map((note) => `${note}4`).concat(["C5"]);
-  }
+  const keys = useMemo(
+    () => difficultyToPianoKeysMap[clef][difficulty],
+    [clef, difficulty]
+  );
 
   return (
     <div className="w-full overflow-x-auto pb-4">
